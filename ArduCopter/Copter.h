@@ -83,6 +83,7 @@
 #include <AP_Arming/AP_Arming.h>
 #include <AP_SmartRTL/AP_SmartRTL.h>
 #include <AP_TempCalibration/AP_TempCalibration.h>
+#include <AP_OpenMV/AP_OpenMV.H>
 
 // Configuration
 #include "defines.h"
@@ -230,6 +231,8 @@ private:
     DataFlash_Class DataFlash;
 
     AP_GPS gps;
+
+    AP_OpenMV openmv{};
 
     // flight modes convenience array
     AP_Int8 *flight_modes;
@@ -668,6 +671,7 @@ private:
     void throttle_loop();
     void update_batt_compass(void);
     void fourhundred_hz_logging();
+    void update_OpenMV(void);
     void ten_hz_logging_loop();
     void twentyfive_hz_logging();
     void three_hz_loop();
@@ -792,6 +796,7 @@ private:
 
     // Log.cpp
     void Log_Write_Optflow();
+    void Log_Write_OpenMV();
     void Log_Write_Control_Tuning();
     void Log_Write_Performance();
     void Log_Write_Attitude();
