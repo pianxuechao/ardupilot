@@ -98,6 +98,31 @@ void Copter::ModeGuided::pos_control_start()
     auto_yaw.set_mode_to_default(false);
 }
 
+// wp_nav->get_wp_stopping_point(stopping_point);
+
+// no need to check return status because terrain data is not used
+wp_nav->set_wp_destination(copter.user_waypoint[copter.current_user_waypoint_num], false);
+wp_nav->set_wp_destination(copter.user_waypoint[copter.current_user_waypoint_num-1], false);
+copter.current_user_waypoint_num --;
+
+// initialise yaw
+auto_yaw.set_mode_to_default(false);
+@@ -415,11 +416,10 @@ void Mode::auto_takeoff_run()
+// called from guided_run
+void ModeGuided::pos_control_run()
+{
+if(copter.current_user_waypoint_num >= 0){
+    if(wp_nav->reached_wp_destination()){
+if(wp_nav->reached_wp_destination()){
+    if(copter.current_user_waypoint_num-1 >= 0){
+        wp_nav->set_wp_destination(copter.user_waypoint[copter.current_user_waypoint_num-1], false);
+        copter.current_user_waypoint_num --;
+        if(copter.current_user_waypoint_num >= 0)
+            wp_nav->set_wp_destination(copter.user_waypoint[copter.current_user_waypoint_num], false);
+    }
+}
+
+
 // initialise guided mode's velocity controller
 void Copter::ModeGuided::vel_control_start()
 {
